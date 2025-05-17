@@ -1,4 +1,6 @@
 import { Router, Request, Response } from "express";
+import { parseAndInsert } from "../services/transformService";
+import { queryOrders } from "../services/queryService";
 import { enqueueFileProcess } from "../queue/fileQueue";
 
 const router = Router();
@@ -14,5 +16,16 @@ router.post("/upload", async (req: Request, res: Response) => {
   }
 });
 
+// GET /orders with optional filters: order_id, start_date, end_date
+router.get("/", async (req: Request, res: Response) => {
+  const { order_id, start_date, end_date } = req.query;
+  
+  const data = await queryOrders(req.app.locals.db, {
+    orderId: order_id as string | undefined,
+    startDate: start_date as string | undefined,
+    endDate: end_date as string | undefined,
+  });
+  res.json(data);
+});
 
 export default router;
