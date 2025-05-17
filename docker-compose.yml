@@ -4,15 +4,11 @@ services:
     build: .
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - MONGO_URI=mongodb://mongo:27017/pedidos
     depends_on:
       - mongo
-    command: npx ts-node-dev --respawn --transpile-only src/app.ts
 
   mongo:
     image: mongo:6.0
@@ -21,5 +17,6 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+
 volumes:
   mongo-data:
