@@ -28,8 +28,12 @@
 ├── .env.example
 └── README.md
 
+____________________________________________________
+
 "Optei por uma arquitetura funcional com separação de responsabilidades, pois ela permite um código limpo, testável e com baixo acoplamento, sem necessidade de um framework de injeção de dependência."
 
+
+____________________________________________________
 Vantagens dessa abordagem ( fila com mongoDB )
 Não perde tarefas se o servidor cair ( persistencia ).
 
