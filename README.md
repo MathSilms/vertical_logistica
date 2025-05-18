@@ -42,3 +42,5 @@ Simples: sem serviços e dependências extras ( Bee-Queue / bullMQ depende do re
 Resiliente: pode reprocessar tarefas com falha (retries).
 
 Escalável: fácil de adaptar para múltiplos workers/processos.
+
+Sem perda de dados: Mongodb consegue armazenar até 16mb no raw.( arquivos de exemplo tem 222kb)
