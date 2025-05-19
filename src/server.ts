@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import app from "./app";
 import { connectToMongo } from "./configs/mongoClient";
 import { setupIndexes } from "./configs/setup";
+import { startOrderProcessWorker } from "./workers/orderProcessWorker";
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ async function startServer() {
     try {
         await connectToMongo();
         await setupIndexes();
+        startOrderProcessWorker();
 
         app.listen(port, () => {
             console.log(`🚀 Server running at http://localhost:${port}`);

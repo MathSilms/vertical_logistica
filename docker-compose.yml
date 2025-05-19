@@ -6,7 +6,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - MONGO_URI=mongodb://mongo:27017/pedidos
+      - MONGO_URI=mongodb://mongo:27017/logistics
     depends_on:
       - mongo
 
