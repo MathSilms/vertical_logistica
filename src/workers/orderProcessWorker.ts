@@ -13,12 +13,21 @@ export function startOrderProcessWorker() {
 
     const task = await getNextPendingTask();
     if (!task) {
+      console.log("-------------------");
+      console.log("nenhuma tarefa a ser processada");
+      console.log("-------------------");
       return;
     } else {
+      console.log("-------------------");
+      console.log("Iniciando Processamento dos dados");
+      console.log("-------------------");
     }
 
     try {
       await parseAndInsert(task.raw);
+      console.log("-------------------");
+      console.log("salvando");
+      console.log("-------------------");
       await markTaskAsDone(task._id);
       console.log(`✅ Tarefa ${task._id.toHexString()} processada com sucesso.`);
     } catch (err) {
