@@ -6,7 +6,7 @@ interface QueryFilters {
   endDate?: string;
 }
 
-export async function queryOrders(db: Db, filters: QueryFilters) {
+export async function getOrders(db: Db, filters: QueryFilters) {
   const pipeline: any[] = [];
 
   if (filters.orderId) {

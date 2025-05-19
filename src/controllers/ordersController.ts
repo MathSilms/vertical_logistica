@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getOrders } from "../services/queryService";
+import { getOrders } from "../services/orderService";
 import { enqueueFile } from "../services/queueService";
 
 export async function handleUpload(req: Request, res: Response) {
