@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { getOrders } from "../services/orderService";
 import { enqueueFile } from "../services/queueService";
+import { QueryFilters } from "../types/query.ds";
 
 export async function handleUpload(req: Request, res: Response) {
   try {
@@ -26,13 +27,9 @@ export async function handleUpload(req: Request, res: Response) {
 
 export async function handleGetOrders(req: Request, res: Response) {
   try {
-    const { order_id, start_date, end_date } = req.query;
+    const { orderId, startDate, endDate }: QueryFilters = req.query;
 
-    const orders = await getOrders(req.app.locals.db, {
-      orderId: order_id as string | undefined,
-      startDate: start_date as string | undefined,
-      endDate: end_date as string | undefined,
-    });
+    const orders = await getOrders({ orderId, startDate, endDate });
 
     return res.json(orders);
   } catch (e) {
