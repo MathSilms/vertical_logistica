@@ -12,26 +12,14 @@ export function startOrderProcessWorker() {
   setInterval(async () => {
 
     const task = await getNextPendingTask();
-    if (!task) {
-      console.log("-------------------");
-      console.log("nenhuma tarefa a ser processada");
-      console.log("-------------------");
-      return;
-    } else {
-      console.log("-------------------");
-      console.log("Iniciando Processamento dos dados");
-      console.log("-------------------");
-    }
+    if (!task) return;
 
     try {
       await parseAndInsert(task.raw);
-      console.log("-------------------");
-      console.log("salvando");
-      console.log("-------------------");
       await markTaskAsDone(task._id);
-      console.log(`✅ Tarefa ${task._id.toHexString()} processada com sucesso.`);
+      console.log(` task ${task._id.toHexString()} processed successfully.`);
     } catch (err) {
-      console.error(`❌ Erro ao processar tarefa ${task._id.toHexString()}:`, err);
+      console.error(`❌ Error processing task ${task._id.toHexString()}:`, err);
       await markTaskAsError(task._id);
     }
   }, INTERVAL);
