@@ -1,6 +1,5 @@
-export function isValidDate(date: string | undefined): boolean | null {
-    // Espera formato yyyy-mm-dd
-    if (!date) return null;
+export function isValidDate(date: string | undefined): boolean {
+    if (!date) return false;
     return /^\d{4}-\d{2}-\d{2}$/.test(date) && !isNaN(Date.parse(date));
 }
 

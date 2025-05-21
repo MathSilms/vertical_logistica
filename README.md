@@ -1,23 +1,13 @@
 ├── src/
 │   ├── app.ts
 │   ├── server.ts
-│   ├── configs/
-│   │   ├── mongo.ts
-│   │   └── setup.ts         
+│   ├── configs/     
 │   ├── controllers/
-│   │   └── ordersController.ts
 │   ├── services/
-│   │   ├── transformService.ts
-│   │   └── queryService.ts
 │   ├── repositories/
-│   │   ├── mongoClient.ts
-│   │   └── orderRepository.ts
 │   ├── queue/
-│   │   └── fileQueue.ts
 │   ├── utils/
-│   │   └── format.ts
 │   ├── types/
-│   │   └── index.d.ts
 ├── tests/
 │   ├── unit/
 │   └── integration/

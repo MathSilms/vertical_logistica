@@ -1,5 +1,5 @@
 import { getCollection } from "../configs/mongoClient";
-import { QueryFilters } from "../types/query.ds";
+import { QueryFilters } from "../types/query.d";
 
 export async function insertOrders(docs: any[]) {
   const collection = getCollection("orders");

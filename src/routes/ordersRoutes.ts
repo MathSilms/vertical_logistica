@@ -1,4 +1,3 @@
-// src/routes/ordersRoutes.ts
 import { Router } from "express";
 import multer from "multer";
 import { handleUpload, handleGetOrders } from "../controllers/ordersController";

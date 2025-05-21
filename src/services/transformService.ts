@@ -4,7 +4,6 @@ import { toISODate } from "../utils/date";
 export async function parseAndInsert(raw: string): Promise<void> {
     try {
         const lines = raw.trim().split(/\r?\n/);
-
         const usersMap: Record<string, any> = {};
 
         for (const line of lines) {
@@ -42,20 +41,18 @@ export async function parseAndInsert(raw: string): Promise<void> {
             })),
         }));
 
-        await insertOrders(docs); // ✅ nova chamada ao repositório
+        await insertOrders(docs);
     } catch (err) {
-        console.log("-----------------")
-        console.log("err", err)
-        console.log("-----------------")
+        throw new Error(`Failed to parse ${err}`);
     }
 }
 
 function parseLine(line: string) {
-    console.log('---------------------');
-    console.log('line', line);
-    console.log('---------------------');
 
     const lineSplit = line.trim().split(/\s+/).filter(Boolean);
+
+    if (lineSplit.length < 4) throw new Error("invalid Row")
+
     const rawProductOrder = lineSplit[lineSplit.length - 2];
     const rawNumericPart = rawProductOrder.slice(-20);
     const rawValueAndDate = lineSplit[lineSplit.length - 1];
@@ -65,10 +62,6 @@ function parseLine(line: string) {
     const userName = getName(lineSplit, rawProductOrder);
     const { orderId, productId } = getIds(rawNumericPart)
     const { value, date } = getValueAndDate(rawValueAndDate);
-
-    console.log('-------------');
-    console.log("lineSplit", lineSplit);
-    console.log('-------------');
 
     return { userId, userName, orderId, productId, value, date };
 }

@@ -15,10 +15,10 @@ async function startServer() {
         startOrderProcessWorker();
 
         app.listen(port, () => {
-            console.log(`🚀 Server running at http://localhost:${port}`);
+            console.log(`Server running at port:${port}`);
         });
     } catch (error) {
-        console.error("❌ error starting server:", error);
+        console.error("Error starting server:", error);
         process.exit(1);
     }
 }
