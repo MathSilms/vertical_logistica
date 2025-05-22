@@ -13,6 +13,14 @@ Jest e supertest ( testes unitários/integração )
 mongodb-memory-server ( banco de dados em memória para testes )
 multer ( permite upload de arquivos no endpoint ).
 
+O projeto pode ser testado em produção.
+
+url base : https://logistics-api-1-0-0.onrender.com/api
+
+O deploy foi feito de forma gratuita utilizando [render.com](https://render.com/), por esse motivo, a api pode se encontrar offline em algums momentos ou apresendar uma leve demora na resposta.
+
+caso esteja offline, baste enviar requisições e voltará a ficar online novamente.
+
 ## Arquitetura e Decisões
 
 Como o objetivo do projeto é demonstrar o conhecimento de forma simples, eficaz e seguindo boas práticas, optei por utilizar uma arquitetura funcional.  
@@ -78,9 +86,18 @@ O sistema possui apenas duas rotas bem simples. Uma para upload de arquivos, out
 
 ### Envio de arquivo
 
+mesmo utilizando o curl, é necessário selecionar um arquivo válido localmente ao testar a api.
+
+local:
+
 curl -X POST http://localhost:3000/upload \
   -H "Content-Type: multipart/form-data" \
   -F "file=@caminho/do/arquivo.txt"
+
+Produção:
+
+  curl --location 'https://logistics-api-1-0-0.onrender.com/api/orders/upload' \
+--form 'file=@"/C:/Users/Usuario/Desktop/desafio tecnico/data_2.txt"'
 
 ### Consulta de pedidos
 
@@ -88,8 +105,18 @@ os parametros **orderId**, **startDate** e **andDate** são opcionais. Você tam
 
 A consulta também pode ser feita com o endpoint raiz e retornará todos os pedidos cadastrados no sistema.
 
+local:
+
 curl -X GET "http://localhost:3000/api/orders?startDate=2021-07-14&orderId=461&endDate=2021-09-02"
 curl -X GET "http://localhost:3000/orders"
+
+prod:
+
+curl --location --request GET 'https://logistics-api-1-0-0.onrender.com/api/orders?orderId=2&startDate=2021-07-14&endDate%20=2021-09-02' \
+--form 'file=@"caminho/para/data_1.txt"'
+
+curl --location --request GET 'https://logistics-api-1-0-0.onrender.com/api/orders' \
+--form 'file=@"caminho/para/data_1.txt"'
 
 ## Automatização:
 
@@ -103,7 +130,7 @@ Evitando erros e facilitando o build.
 Orquestração de containers com **kubernates**: Permite gerenciamento dos containers nos pods, tornando o sistema mais confiável. Caso um pod caia, automaticamente outro é colocado em seu lugar para manter o sistema 100% online.
 Além disso, permite mais flexibilidade no gerenciamento dos containers e também utilizar uma interface mais amigável como o **Argos** por exemplo.
 
-### Testes
+## Testes
 
 Unitários: Validação de dados, parsing, serviços, controladores e repositórios.
 
@@ -152,16 +179,16 @@ Para rodar corretamente o passo a passo, acesse o README_K8S.md que está dentro
 ## Rodar testes unitários + integrados
 `npm test`
 
-# Rodar testes com cobertura
+## Rodar testes com cobertura
 `npm run test:coverage`
 
 Gera um pasta chamada coverage. Dentro dessa pasta, temos um arquivo chamado index.html.
 Caso queira consultar visualmente a cobertura de testes pelo código do sistema, pode optar por abrir esse arquivo no seu navegador.
 
-# Build de produção (TypeScript > JavaScript)
+## Build de produção (TypeScript > JavaScript)
 `npm run build`
 
-# Start da aplicação (modo produção)
+## Start da aplicação (modo produção)
 `npm start`
 
 só pode ser utilizado apos rodar o comando de build.
@@ -187,5 +214,5 @@ A leitura e tratamento dos dados do arquivo é o ponto chave do desafio. O siste
 
 
 _Foi divertido._  
-Feito com 💙 por [SEU_USUARIO_GITHUB](https://github.com/SEU_USUARIO_GITHUB) para luizaLabs!
+Feito com 💙 por [MathSilms](https://github.com/MathSilms) para luizaLabs!
 
