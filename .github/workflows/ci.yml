@@ -1,3 +1,5 @@
+# .github/workflows/ci.yml
+
 name: CI
 
 on:
@@ -22,16 +24,18 @@ jobs:
       - name: 📦 Instalar dependências
         run: npm ci
 
-      - name: 🔍 Verificar tipos e lint
+      - name: 🔍 Verificar tipos e build
         run: |
           npm run build
+          # Se desejar, habilite lint também:
           # npm run lint
 
       - name: ✅ Rodar testes com coverage
         run: npm test -- --coverage
 
       - name: 💾 Salvar cobertura como artefato
-        uses: actions/upload-artifact@v3.1.2
+        # Utiliza versão v2 por ser mais estável em runners com erro no v3
+        uses: actions/upload-artifact@v2
         with:
           name: coverage-report
           path: coverage/
