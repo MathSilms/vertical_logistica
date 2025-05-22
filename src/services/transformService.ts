@@ -1,5 +1,11 @@
 import { insertOrders } from "../repositories/orderRepository";
+import {
+    getNextPendingTask,
+    markTaskAsDone,
+    markTaskAsError,
+} from "../repositories/queueRepository";
 import { toISODate } from "../utils/date";
+import { ObjectId } from "mongodb";
 
 export async function parseAndInsert(raw: string): Promise<void> {
     try {
@@ -47,6 +53,19 @@ export async function parseAndInsert(raw: string): Promise<void> {
     }
 }
 
+export async function updateTask(_id: ObjectId, status: string) {
+
+    if (status === 'done')
+        markTaskAsDone(_id)
+
+    if (status === 'error')
+        markTaskAsError(_id)
+}
+
+export async function getNextTask() {
+    return getNextPendingTask();
+}
+
 function parseLine(line: string) {
 
     const lineSplit = line.trim().split(/\s+/).filter(Boolean);
@@ -88,3 +107,4 @@ function getValueAndDate(valueAndDate: string) {
     const date = toISODate(rawDate);
     return { value, date };
 }
+

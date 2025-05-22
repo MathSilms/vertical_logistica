@@ -40,7 +40,38 @@ describe("orderRepository", () => {
             const result = await findOrdersWithFilters({ orderId: "123" });
 
             expect(mockAggregate).toHaveBeenCalledWith([
-                { $match: { "orders.order_id": 123 } }
+                {
+                    $match: {
+                        orders: {
+                            $elemMatch: {
+                                order_id: 123
+                            }
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        user_id: 1,
+                        name: 1,
+                        orders: {
+                            $filter: {
+                                input: "$orders",
+                                as: "order",
+                                cond: {
+                                    $and: [
+                                        { $eq: ["$$order.order_id", 123] }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    $match: {
+                        "orders.0": { $exists: true }
+                    }
+                }
             ]);
             expect(result).toEqual(["mocked data"]);
         });
@@ -53,10 +84,38 @@ describe("orderRepository", () => {
             expect(mockAggregate).toHaveBeenCalledWith([
                 {
                     $match: {
-                        "orders.date": {
-                            $gte: "2021-01-01",
-                            $lte: "2021-12-31"
+                        orders: {
+                            $elemMatch: {
+                                date: {
+                                    $gte: "2021-01-01",
+                                    $lte: "2021-12-31"
+                                }
+                            }
                         }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        user_id: 1,
+                        name: 1,
+                        orders: {
+                            $filter: {
+                                input: "$orders",
+                                as: "order",
+                                cond: {
+                                    $and: [
+                                        { $gte: ["$$order.date", "2021-01-01"] },
+                                        { $lte: ["$$order.date", "2021-12-31"] }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    $match: {
+                        "orders.0": { $exists: true }
                     }
                 }
             ]);
@@ -68,8 +127,70 @@ describe("orderRepository", () => {
             await findOrdersWithFilters({ orderId: "5", startDate: "2021-01-01" });
 
             expect(mockAggregate).toHaveBeenCalledWith([
-                { $match: { "orders.order_id": 5 } },
-                { $match: { "orders.date": { $gte: "2021-01-01" } } }
+                {
+                    $match: {
+                        orders: {
+                            $elemMatch: {
+                                order_id: 5,
+                                date: {
+                                    $gte: "2021-01-01"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        user_id: 1,
+                        name: 1,
+                        orders: {
+                            $filter: {
+                                input: "$orders",
+                                as: "order",
+                                cond: {
+                                    $and: [
+                                        { $eq: ["$$order.order_id", 5] },
+                                        { $gte: ["$$order.date", "2021-01-01"] }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    $match: {
+                        "orders.0": { $exists: true }
+                    }
+                }
+            ]);
+        });
+
+        it("should work with no filters (return all orders)", async () => {
+            mockToArray.mockResolvedValue(["all"]);
+
+            await findOrdersWithFilters({});
+
+            expect(mockAggregate).toHaveBeenCalledWith([
+                {
+                    $project: {
+                        _id: 1,
+                        user_id: 1,
+                        name: 1,
+                        orders: {
+                            $filter: {
+                                input: "$orders",
+                                as: "order",
+                                cond: {}
+                            }
+                        }
+                    }
+                },
+                {
+                    $match: {
+                        "orders.0": { $exists: true }
+                    }
+                }
             ]);
         });
     });

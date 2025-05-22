@@ -1,23 +1,18 @@
-import { parseAndInsert } from "../services/transformService";
-import {
-  getNextPendingTask,
-  markTaskAsDone,
-  markTaskAsError,
-} from "../repositories/queueRepository";
+import { getNextTask, parseAndInsert, updateTask } from "../services/transformService";
 
 export const INTERVAL = 120000;
 
 export async function processNextTask() {
-  const task = await getNextPendingTask();
+  const task = await getNextTask();
   if (!task) return;
 
   try {
     await parseAndInsert(task.raw);
-    await markTaskAsDone(task._id);
+    await updateTask(task._id, 'done');
     console.log(` task ${task._id.toHexString()} processed successfully.`);
   } catch (err) {
     console.error(`❌ Error processing task ${task._id.toHexString()}:`, err);
-    await markTaskAsError(task._id);
+    await updateTask(task._id, 'error');
   }
 }
 
