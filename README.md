@@ -103,7 +103,7 @@ Evitando erros e facilitando o build.
 Orquestração de containers com **kubernates**: Permite gerenciamento dos containers nos pods, tornando o sistema mais confiável. Caso um pod caia, automaticamente outro é colocado em seu lugar para manter o sistema 100% online.
 Além disso, permite mais flexibilidade no gerenciamento dos containers e também utilizar uma interface mais amigável como o **Argos** por exemplo.
 
-### Testes
+## Testes
 
 Unitários: Validação de dados, parsing, serviços, controladores e repositórios.
 
@@ -152,16 +152,16 @@ Para rodar corretamente o passo a passo, acesse o README_K8S.md que está dentro
 ## Rodar testes unitários + integrados
 `npm test`
 
-# Rodar testes com cobertura
+## Rodar testes com cobertura
 `npm run test:coverage`
 
 Gera um pasta chamada coverage. Dentro dessa pasta, temos um arquivo chamado index.html.
 Caso queira consultar visualmente a cobertura de testes pelo código do sistema, pode optar por abrir esse arquivo no seu navegador.
 
-# Build de produção (TypeScript > JavaScript)
+## Build de produção (TypeScript > JavaScript)
 `npm run build`
 
-# Start da aplicação (modo produção)
+## Start da aplicação (modo produção)
 `npm start`
 
 só pode ser utilizado apos rodar o comando de build.
@@ -187,5 +187,5 @@ A leitura e tratamento dos dados do arquivo é o ponto chave do desafio. O siste
 
 
 _Foi divertido._  
-Feito com 💙 por [SEU_USUARIO_GITHUB](https://github.com/SEU_USUARIO_GITHUB) para luizaLabs!
+Feito com 💙 por [MathSilms](https://github.com/MathSilms) para luizaLabs!
 
