@@ -13,6 +13,14 @@ Jest e supertest ( testes unitários/integração )
 mongodb-memory-server ( banco de dados em memória para testes )
 multer ( permite upload de arquivos no endpoint ).
 
+O projeto pode ser testado em produção.
+
+url base : https://logistics-api-1-0-0.onrender.com/api
+
+O deploy foi feito de forma gratuita utilizando [render.com](https://render.com/), por esse motivo, a api pode se encontrar offline em algums momentos ou apresendar uma leve demora na resposta.
+
+caso esteja offline, baste enviar requisições e voltará a ficar online novamente.
+
 ## Arquitetura e Decisões
 
 Como o objetivo do projeto é demonstrar o conhecimento de forma simples, eficaz e seguindo boas práticas, optei por utilizar uma arquitetura funcional.  
@@ -78,9 +86,18 @@ O sistema possui apenas duas rotas bem simples. Uma para upload de arquivos, out
 
 ### Envio de arquivo
 
+mesmo utilizando o curl, é necessário selecionar um arquivo válido localmente ao testar a api.
+
+local:
+
 curl -X POST http://localhost:3000/upload \
   -H "Content-Type: multipart/form-data" \
   -F "file=@caminho/do/arquivo.txt"
+
+Produção:
+
+  curl --location 'https://logistics-api-1-0-0.onrender.com/api/orders/upload' \
+--form 'file=@"/C:/Users/Usuario/Desktop/desafio tecnico/data_2.txt"'
 
 ### Consulta de pedidos
 
@@ -88,8 +105,18 @@ os parametros **orderId**, **startDate** e **andDate** são opcionais. Você tam
 
 A consulta também pode ser feita com o endpoint raiz e retornará todos os pedidos cadastrados no sistema.
 
+local:
+
 curl -X GET "http://localhost:3000/api/orders?startDate=2021-07-14&orderId=461&endDate=2021-09-02"
 curl -X GET "http://localhost:3000/orders"
+
+prod:
+
+curl --location --request GET 'https://logistics-api-1-0-0.onrender.com/api/orders?orderId=2&startDate=2021-07-14&endDate%20=2021-09-02' \
+--form 'file=@"caminho/para/data_1.txt"'
+
+curl --location --request GET 'https://logistics-api-1-0-0.onrender.com/api/orders' \
+--form 'file=@"caminho/para/data_1.txt"'
 
 ## Automatização:
 
