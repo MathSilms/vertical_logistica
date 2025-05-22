@@ -8,6 +8,7 @@ module.exports = {
   transform: {
     ...tsJestTransformCfg,
   },
+  testPathIgnorePatterns: ["/node_modules/", "/dist/"],
   collectCoverage: true,
   collectCoverageFrom: [
     "src/**/*.ts",
