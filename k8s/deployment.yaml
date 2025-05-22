@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logistics-api
+  labels:
+    app: logistics-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logistics-api
+  template:
+    metadata:
+      labels:
+        app: logistics-api
+    spec:
+      containers:
+        - name: api
+          image: docker.io/mathsilms/logistics-api:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: MONGO_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: logistics-config
+                  key: MONGO_URI

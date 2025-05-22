@@ -1,13 +1,18 @@
-# Dockerfile – build final image
-FROM node:23-alpine AS base
+FROM node:23-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --production && npm cache clean --force
+RUN npm install
 
 COPY . .
+RUN npx tsc && echo "✅ Build concluído" && ls -la dist || (echo '❌ Falha ao compilar' && exit 1)
 
-RUN npx tsc
+FROM node:23-alpine
+WORKDIR /app
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package*.json ./
+RUN npm install --production && npm cache clean --force
 
 EXPOSE 3000
-CMD ["node", "dist/app.js"]
+CMD ["node", "dist/src/server.js"]
