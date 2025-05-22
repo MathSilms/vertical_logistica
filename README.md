@@ -1,4 +1,4 @@
-![CI](https://github.com/SEU_USUARIO/SEU_REPOSITORIO/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/MathSilms/vertical_logistica/actions/workflows/ci.yml/badge.svg)
 
  Vertical Logística — Desafio LuizaLabs.
 
