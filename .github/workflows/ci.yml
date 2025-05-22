@@ -1,0 +1,38 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧱 Checkout do código
+        uses: actions/checkout@v3
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      - name: 🔍 Verificar tipos e lint
+        run: |
+          npm run build
+          # npm run lint
+
+      - name: ✅ Rodar testes com coverage
+        run: npm test -- --coverage
+
+      - name: 💾 Salvar cobertura como artefato
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/

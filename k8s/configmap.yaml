@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logistics-config
+  labels:
+    app: logistics-api
+data:
+  MONGO_URI: mongodb://mongo:27017/logistics

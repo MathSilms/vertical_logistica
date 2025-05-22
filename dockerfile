@@ -15,4 +15,4 @@ COPY --from=builder /app/package*.json ./
 RUN npm install --production && npm cache clean --force
 
 EXPOSE 3000
-CMD ["node", "dist/server.js"]
+CMD ["node", "dist/src/server.js"]
